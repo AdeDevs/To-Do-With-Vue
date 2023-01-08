@@ -1,7 +1,11 @@
 <template>
   <div class="container">
     <Header title="Task Tracker" />
-    <Tasks :tasks="tasks" />
+    <Tasks
+      @toggle-reminder="toggleReminder"
+      @delete-task="deleteTask"
+      :tasks="tasks"
+    />
   </div>
 </template>
 
@@ -13,35 +17,59 @@ export default {
   name: "App",
   components: {
     Header,
-    Tasks,
+    Tasks
   },
   data() {
     return {
-      tasks: [],
+      tasks: []
     };
+  },
+  methods: {
+    deleteTask(id) {
+      if (confirm("Are You Sure?")) {
+        this.tasks = this.tasks.filter(task => task.id !== id);
+      }
+    },
+    toggleReminder(id) {
+      this.tasks = this.tasks.map(task =>
+        task.id === id ? { ...task, reminder: !task.reminder } : task
+      );
+    }
   },
   created() {
     this.tasks = [
       {
         id: 1,
         text: "Go make breakfast",
-        day: "January 6th at 12:00",
-        reminder: true,
+        day: "January 9th at 12:00",
+        reminder: true
       },
       {
         id: 2,
         text: "Go commit code",
-        day: "January 6th at 14:00",
-        reminder: false,
+        day: "January 9th at 14:00",
+        reminder: false
       },
       {
         id: 3,
         text: "Go play FIFA",
-        day: "January 6th at 20:00",
-        reminder: true,
+        day: "January 9th at 20:00",
+        reminder: true
       },
+      {
+        id: 4,
+        text: "Go eat dinner",
+        day: "January 9th at 21:00",
+        reminder: false
+      },
+      {
+        id: 5,
+        text: "Go push code to GitHub",
+        day: "January 9th at 22:00",
+        reminder: true
+      }
     ];
-  },
+  }
 };
 </script>
 
@@ -60,10 +88,11 @@ body {
 .container {
   max-width: 500px;
   margin: 30px auto;
-  overflow: autp;
-  min-height: 300px;
+  overflow: auto;
+  height: auto;
   border: 1px solid steelblue;
-  padding: 30px;
+  padding: 15px;
+  box-sizing: border-box;
   border-radius: 5px;
 }
 
