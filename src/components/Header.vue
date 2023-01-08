@@ -11,11 +11,11 @@ import Button from "./Button";
 export default {
   name: "Header",
   props: {
-    title: String,
+    title: String
   },
   components: {
-    Button,
-  },
+    Button
+  }
 };
 </script>
 
