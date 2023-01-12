@@ -1,138 +1,109 @@
 <template>
-  <div class="container">
-    <Header @toggle-add-task="toggleAddTask" title="Task Tracker" />
-    <div v-show="showAddTask">
-      <AddTask @add-task="addTask" />
+  <form @submit="onSubmit" class="add-form">
+    <div class="form-control">
+      <label>Task</label>
+      <input v-model="text" type="text" name="text" placeholder="Add Task" />
     </div>
-    <Tasks
-      @toggle-reminder="toggleReminder"
-      @delete-task="deleteTask"
-      :tasks="tasks"
-    />
-  </div>
+    <div class="form-control">
+      <label>Day & Time</label>
+      <input
+        v-model="day"
+        type="text"
+        name="day"
+        placeholder="Add Day & Time"
+      />
+    </div>
+    <div class="form-control form-control-check">
+      <label>Set Reminder</label>
+      <input v-model="reminder" type="checkbox" name="reminder" />
+    </div>
+    <input type="submit" value="Save Task" class="btn-block" />
+  </form>
 </template>
 
 <script>
-import Header from "./components/Header.vue";
-import Tasks from "./components/Tasks.vue";
-import AddTask from "./components/AddTask.vue";
-
 export default {
-  name: "App",
-  components: {
-    Header,
-    Tasks,
-    AddTask
-  },
+  name: "Task",
   data() {
     return {
-      tasks: [],
-      showAddTask: false
+      text: "",
+      day: "",
+      reminder: ""
     };
   },
   methods: {
-    toggleAddTask() {
-      this.showAddTask = !this.showAddTask;
-    },
-    addTask(task) {
-      this.tasks = [...this.tasks, task];
-    },
-    deleteTask(id) {
-      if (confirm("Are You Sure?")) {
-        this.tasks = this.tasks.filter(task => task.id !== id);
+    onSubmit(e) {
+      e.preventDefault();
+
+      if (!this.text) {
+        alert("Please Add A Task");
+        return;
       }
-    },
-    toggleReminder(id) {
-      this.tasks = this.tasks.map(task =>
-        task.id === id ? { ...task, reminder: !task.reminder } : task
-      );
+
+      const newTask = {
+        id: Math.floor(Math.random() * 100000),
+        text: this.text,
+        day: this.day,
+        reminder: this.reminder
+      };
+
+      this.$emit("add-task", newTask);
+
+      this.text = "";
+      this.day = "";
+      this.reminder = "";
     }
-  },
-  created() {
-    this.tasks = [
-      {
-        id: 1,
-        text: "Go make breakfast",
-        day: "January 9th at 12:00",
-        reminder: true
-      },
-      {
-        id: 2,
-        text: "Go commit code",
-        day: "January 9th at 14:00",
-        reminder: false
-      },
-      {
-        id: 3,
-        text: "Go play FIFA",
-        day: "January 9th at 20:00",
-        reminder: true
-      },
-      {
-        id: 4,
-        text: "Go eat dinner",
-        day: "January 9th at 21:00",
-        reminder: false
-      },
-      {
-        id: 5,
-        text: "Go push code to GitHub",
-        day: "January 9th at 22:00",
-        reminder: true
-      }
-    ];
   }
 };
 </script>
 
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-body {
-  font-family: "Poppins", sans-serif;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-.container {
-  max-width: 500px;
-  margin: 30px auto;
-  overflow: auto;
-  height: auto;
-  width: 99%;
-  border: 1px solid steelblue;
-  padding: 15px;
-  box-sizing: border-box;
-  border-radius: 5px;
-}
-
-.btn {
-  display: inline-block;
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 15px;
-  font-family: inherit;
-}
-
-.btn:focus {
-  outline: none;
-}
-
-.btn:active {
-  transform: scale(0.98);
-}
-
+<style scoped>
 .btn-block {
-  display: block;
+  background-color: black;
   width: 100%;
+  border: none;
+  color: white;
+  font-family: inherit;
+  padding: 10px 0;
+  border-radius: 5px;
+  display: block;
+  cursor: pointer;
+}
+
+.add-form {
+  margin-bottom: 40px;
+}
+
+.form-control {
+  margin: 20px 0;
+}
+
+.form-control label {
+  display: block;
+}
+
+.form-control input {
+  width: 100%;
+  border-radius: 7px;
+  height: 40px;
+  margin: 5px;
+  border: none;
+  padding: 3px 8px;
+  font-size: 17px;
+}
+
+.form-control-check {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-control-check label {
+  flex: 1;
+}
+
+.form-control-check input {
+  flex: 2;
+  height: 20px;
 }
 </style>

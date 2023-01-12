@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <Header @toggle-add-task="toggleAddTask" title="Task Tracker" />
+    <Header
+      @toggle-add-task="toggleAddTask"
+      title="Task Tracker"
+      :showAddTask="showAddTask"
+    />
     <div v-show="showAddTask">
       <AddTask @add-task="addTask" />
     </div>
@@ -73,12 +77,6 @@ export default {
         text: "Go eat dinner",
         day: "January 9th at 21:00",
         reminder: false
-      },
-      {
-        id: 5,
-        text: "Go push code to GitHub",
-        day: "January 9th at 22:00",
-        reminder: true
       }
     ];
   }
@@ -89,6 +87,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 body {
   font-family: "Poppins", sans-serif;
+  background-color: #333;
 }
 
 * {
@@ -101,6 +100,7 @@ body {
   max-width: 500px;
   margin: 30px auto;
   overflow: auto;
+  color: white;
   height: auto;
   width: 99%;
   border: 1px solid steelblue;
