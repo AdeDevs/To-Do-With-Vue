@@ -1,4 +1,4 @@
-<template>
+  <template>
   <header>
     <h1>{{ title }}</h1>
     <Button
@@ -25,6 +25,7 @@ export default {
 
 <style scoped>
 header {
+  color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;

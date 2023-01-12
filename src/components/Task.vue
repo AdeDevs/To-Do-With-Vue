@@ -26,14 +26,19 @@ export default {
 }
 
 .task {
-  background: #f4f4f4;
+  background: rgb(165, 165, 165);
   margin: 5px;
   padding: 10px 20px;
   cursor: pointer;
 }
 
+.task:hover {
+  background-color: rgb(233, 233, 233);
+  transition: 400ms;
+}
+
 .task.reminder {
-  border-left: 5px solid green;
+  border-left: 15px solid green;
 }
 
 .task h3 {
